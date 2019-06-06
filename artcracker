@@ -99,8 +99,11 @@ if __name__ == '__main__':
             z = 1
     except:
         print("  Usage: \n\t1) python3 {} --wordlist <WORDLIST_NAME> <PASSWORD_HASHED> <HASH_TYPE>\n\t2) python3 {} --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>".format(sys.argv[0], sys.argv[0]))
-    
-    if z == 0:
-        wordlist_method(wordlist, passwrd_hashed, hash_type)
-    else:
-        bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
+        quit()
+    try:
+        if z == 0:
+            wordlist_method(wordlist, passwrd_hashed, hash_type)
+        else:
+            bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
+    except KeyboardInterrupt:
+        print("Lol")
