@@ -59,8 +59,12 @@ def cracking_pass(passwrd_hashed, generated, hash_type):
         sha512_check(passwrd_hashed, generated)
     else:print("Hash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
 
-def wordlist_method(wordlist, passwrd_hashed, hash_type):
+def wordlist_method(wordlist_name, passwrd_hashed, hash_type):
     x = 0
+    try:
+        wordlist = open(wordlist_name, "r")
+    except FileNotFoundError:
+        print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
     for generated in wordlist.readlines():
         generated = generated.replace("\n","")
         cracking_pass(passwrd_hashed, generated, hash_type)
@@ -84,10 +88,7 @@ def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
 if __name__ == '__main__':
     try:
         if sys.argv[1] == "--wordlist":
-            try:
-                wordlist = open(sys.argv[2], "r")
-            except FileNotFoundError:
-                print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
+            wordlist_name = sys.argv[2]
             passwrd_hashed = sys.argv[3].lower()
             hash_type = sys.argv[4]
             z = 0
@@ -102,7 +103,7 @@ if __name__ == '__main__':
         quit()
     try:
         if z == 0:
-            wordlist_method(wordlist, passwrd_hashed, hash_type)
+            wordlist_method(wordlist_name, passwrd_hashed, hash_type)
         else:
             bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
     except KeyboardInterrupt:
