@@ -44,18 +44,18 @@ def sha512_check(passwrd_hashed, generated):
         quit()
     else: return
         
-def cracking_pass(passwrd_hashed, hash_type, generated):
+def cracking_pass(passwrd_hashed, generated, hash_type):
     if hash_type == "md5":
         md5_check(passwrd_hashed, generated)
-    if hash_type == "sha1":
+    elif hash_type == "sha1":
         sha1_check(passwrd_hashed, generated)
-    if hash_type == "sha224":
+    elif hash_type == "sha224":
         sha224_check(passwrd_hashed, generated)
-    if hash_type == "sha256":
+    elif hash_type == "sha256":
         sha256_check(passwrd_hashed, generated)
-    if hash_type == "sha384":
+    elif hash_type == "sha384":
         sha384_check(passwrd_hashed, generated)
-    if hash_type == "sha512":
+    elif hash_type == "sha512":
         sha512_check(passwrd_hashed, generated)
     else:print("Hash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
 
@@ -63,7 +63,7 @@ def wordlist_method(wordlist, passwrd_hashed, hash_type):
     x = 0
     for generated in wordlist.readlines():
         generated.replace("\n","")
-        cracking_pass(passwrd_hashed, hash_type, generated)
+        cracking_pass(passwrd_hashed, generated, hash_type)
         x+=1
         print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
 
@@ -77,7 +77,7 @@ def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
     for lenght in range(min_characters, max_characters):
         for item in product(characters, repeat=lenght):
             generated = "".join(item)
-            cracking_pass(passwrd_hashed, hash_type, generated)
+            cracking_pass(passwrd_hashed, generated, hash_type)
             x+=1
             print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
 
@@ -90,12 +90,17 @@ if __name__ == '__main__':
                 print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
             passwrd_hashed = sys.argv[3].lower()
             hash_type = sys.argv[4]
-            wordlist_method(wordlist, passwrd_hashed, hash_type)
+            z = 0
         if sys.argv[1] == "--bruteforce":
             min_characters = int(sys.argv[2])
             max_characters = int(sys.argv[3]) + 1
             passwrd_hashed = sys.argv[4].lower()
             hash_type = sys.argv[5]
-            bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
+            z = 1
     except:
         print("  Usage: \n\t1) python3 {} --wordlist <WORDLIST_NAME> <PASSWORD_HASHED> <HASH_TYPE>\n\t2) python3 {} --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>".format(sys.argv[0], sys.argv[0]))
+    
+    if z == 0:
+        wordlist_method(wordlist, passwrd_hashed, hash_type)
+    else:
+        bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
