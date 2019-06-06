@@ -65,6 +65,7 @@ def wordlist_method(wordlist_name, passwrd_hashed, hash_type):
         wordlist = open(wordlist_name, "r")
     except FileNotFoundError:
         print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
+        quit()
     for generated in wordlist.readlines():
         generated = generated.replace("\n","")
         cracking_pass(passwrd_hashed, generated, hash_type)
