@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import hashlib, sys, string
+from datetime import datetime
 from itertools import product
 
 def md5_check(passwrd_hashed, generated):
     result = hashlib.md5(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else: return
 
@@ -13,6 +15,7 @@ def sha1_check(passwrd_hashed, generated):
     result = hashlib.sha1(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else: return
 
@@ -20,6 +23,7 @@ def sha224_check(passwrd_hashed, generated):
     result = hashlib.sha224(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else: return
 
@@ -27,6 +31,7 @@ def sha256_check(passwrd_hashed, generated):
     result = hashlib.sha256(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else: return
 
@@ -34,6 +39,7 @@ def sha384_check(passwrd_hashed, generated):
     result = hashlib.sha384(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else:return
 
@@ -41,6 +47,7 @@ def sha512_check(passwrd_hashed, generated):
     result = hashlib.sha512(generated.encode())
     if result.hexdigest() == passwrd_hashed:
         print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nFinished at {}:{}".format(datetime.now().hour, datetime.now().minute))
         quit()
     else: return
         
@@ -61,6 +68,7 @@ def cracking_pass(passwrd_hashed, generated, hash_type):
         print("\nHash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
         quit()
 def wordlist_method(wordlist_name, passwrd_hashed, hash_type):
+    print("Started at {}:{}\n".format(datetime.now().hour, datetime.now().minute))
     x = 0
     try:
         wordlist = open(wordlist_name, "r")
@@ -73,10 +81,9 @@ def wordlist_method(wordlist_name, passwrd_hashed, hash_type):
         x+=1
         print("\rPaswords used: {}, current password: {}".format(x, generated), end="")
 
-def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type):
-    characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
+def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type, characters):
     x = 0
-    print("Characters going to be used: "+"".join(characters))
+    print("Started at {}:{}\nCharacters going to be used: ".format(datetime.now().hour, datetime.now().minute)+"".join(characters)+"\n")
     if max_characters < min_characters:
         print("The max number of characters is smaller than the min number of characters\nUsage: python3 {} <MIN_CHARACTERS> <MAX_CHARACTERS> <OUTPUT FILE>".format(sys.argv[0]))
         quit()
@@ -99,14 +106,18 @@ if __name__ == '__main__':
             max_characters = int(sys.argv[3]) + 1
             passwrd_hashed = sys.argv[4].lower()
             hash_type = sys.argv[5]
+            if sys.argv[6] == "--characters":
+                characters = [char for char in sys.argv[7]]
+            else:
+                characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
             z = 1
     except:
-        print("  Usage: \n\t1) python3 {} --wordlist <WORDLIST_NAME> <PASSWORD_HASHED> <HASH_TYPE>\n\t2) python3 {} --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>".format(sys.argv[0], sys.argv[0]))
+        print("  Usage: \n\t1) python3 {} --wordlist <WORDLIST_NAME> <PASSWORD_HASHED> <HASH_TYPE>\n\t2) python3 {} --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>\n\tWith the bruteforce mode, you can use the default characters or use your custom characters by adding --characters at the end of the --bruteforce argument".format(sys.argv[0], sys.argv[0]))
         quit()
     try:
         if z == 0:
             wordlist_method(wordlist_name, passwrd_hashed, hash_type)
         else:
-            bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
+            bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type,characters)
     except KeyboardInterrupt:
         print("\nLol")
