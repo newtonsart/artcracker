@@ -62,7 +62,7 @@ def cracking_pass(passwrd_hashed, generated, hash_type):
 def wordlist_method(wordlist, passwrd_hashed, hash_type):
     x = 0
     for generated in wordlist.readlines():
-        generated.replace("\n","")
+        generated = generated.replace("\n","")
         cracking_pass(passwrd_hashed, generated, hash_type)
         x+=1
         print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
