@@ -5,42 +5,42 @@ from itertools import product
 def md5_check(passwrd_hashed, generated):
     result = hashlib.md5(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else: return
 
 def sha1_check(passwrd_hashed, generated):
     result = hashlib.sha1(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else: return
 
 def sha224_check(passwrd_hashed, generated):
     result = hashlib.sha224(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else: return
 
 def sha256_check(passwrd_hashed, generated):
     result = hashlib.sha256(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else: return
 
 def sha384_check(passwrd_hashed, generated):
     result = hashlib.sha384(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else:return
 
 def sha512_check(passwrd_hashed, generated):
     result = hashlib.sha512(generated.encode())
     if result.hexdigest() == passwrd_hashed:
-        print("PASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
+        print("\nPASSWORD FOUND!!\nTHE PASSWORD IS: "+generated)
         quit()
     else: return
         
@@ -57,20 +57,21 @@ def cracking_pass(passwrd_hashed, generated, hash_type):
         sha384_check(passwrd_hashed, generated)
     elif hash_type == "sha512":
         sha512_check(passwrd_hashed, generated)
-    else:print("Hash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
-
+    else:
+        print("\nHash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
+        quit()
 def wordlist_method(wordlist_name, passwrd_hashed, hash_type):
     x = 0
     try:
         wordlist = open(wordlist_name, "r")
     except FileNotFoundError:
-        print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
+        print("\nThat file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
         quit()
     for generated in wordlist.readlines():
         generated = generated.replace("\n","")
         cracking_pass(passwrd_hashed, generated, hash_type)
         x+=1
-        print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
+        print("\rPaswords used: {}, current password: {}".format(x, generated), end="")
 
 def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type):
     characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
@@ -84,7 +85,7 @@ def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
             generated = "".join(item)
             cracking_pass(passwrd_hashed, generated, hash_type)
             x+=1
-            print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
+            print("\rPaswords used: {}, current password: {}".format(x, generated), end="")
 
 if __name__ == '__main__':
     try:
@@ -108,4 +109,4 @@ if __name__ == '__main__':
         else:
             bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
     except KeyboardInterrupt:
-        print("Lol")
+        print("\nLol")
