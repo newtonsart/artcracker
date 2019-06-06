@@ -1,4 +1,5 @@
-import hashlib, sys, threading, string
+#!/usr/bin/env python3
+import hashlib, sys, string
 from itertools import product
 
 def md5_check(passwrd_hashed, generated):
@@ -59,24 +60,24 @@ def cracking_pass(passwrd_hashed, hash_type, generated):
     else:print("Hash type error, we have the following hash types available:\n\tmd5\n\tsha1\n\tsha224\n\tsha256\n\tsha384\n\tsha512")
 
 def wordlist_method(wordlist, passwrd_hashed, hash_type):
+    x = 0
     for generated in wordlist.readlines():
         generated.replace("\n","")
-        t = threading.Thread(target=cracking_pass, args=(passwrd_hashed, hash_type, generated, ))
-        t.start
+        cracking_pass(passwrd_hashed, hash_type, generated)
         x+=1
         print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
 
 def bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type):
     characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
-    print("Characters going to be used: "+characters)
+    x = 0
+    print("Characters going to be used: "+"".join(characters))
     if max_characters < min_characters:
         print("The max number of characters is smaller than the min number of characters\nUsage: python3 {} <MIN_CHARACTERS> <MAX_CHARACTERS> <OUTPUT FILE>".format(sys.argv[0]))
         quit()
     for lenght in range(min_characters, max_characters):
         for item in product(characters, repeat=lenght):
             generated = "".join(item)
-            t = threading.Thread(target=cracking_pass, args=(passwrd_hashed, hash_type, generated, ))
-            t.start
+            cracking_pass(passwrd_hashed, hash_type, generated)
             x+=1
             print("\rPaswords used: {}, current password: {}".format(x, generated), end="\r")
 
@@ -87,13 +88,13 @@ if __name__ == '__main__':
                 wordlist = open(sys.argv[2], "r")
             except FileNotFoundError:
                 print("That file does not exist, please input an already existing file or path.\nIf you dont have a wordlist, you can use the bruteforce method or you can create a wordlist with the tool: https://github.com/lilart/wordlistgenerator")
-            passwrd_hashed = sys.argv[3]
+            passwrd_hashed = sys.argv[3].lower()
             hash_type = sys.argv[4]
             wordlist_method(wordlist, passwrd_hashed, hash_type)
         if sys.argv[1] == "--bruteforce":
             min_characters = int(sys.argv[2])
             max_characters = int(sys.argv[3]) + 1
-            passwrd_hashed = sys.argv[4]
+            passwrd_hashed = sys.argv[4].lower()
             hash_type = sys.argv[5]
             bruteforce_method(min_characters, max_characters, passwrd_hashed, hash_type)
     except:
