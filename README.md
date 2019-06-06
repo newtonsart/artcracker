@@ -9,8 +9,9 @@ python3 artcracker --wordlist <WORDLIST_NAME> <HASH> <HASH_TYPE>
 ### 2) Using combinations to crack the password
 ```
 python3 artcracker --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>
-You can use custom characters by adding --characters <CUSTOM_CHARACTERS>at the end of the --bruteforce argument
 ```
+You can use custom characters by adding --characters <CUSTOM_CHARACTERS> at the end of the --bruteforce argument
+
 ### Examples
 #### With a wordlist
 ```
