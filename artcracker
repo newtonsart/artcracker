@@ -111,6 +111,7 @@ if __name__ == '__main__':
                     characters = [char for char in sys.argv[7]]
                 else:
                     print("invalid argument "+sys.argv[6])
+                    quit()
             except:characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
             z = 1
     except:
