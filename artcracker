@@ -106,10 +106,12 @@ if __name__ == '__main__':
             max_characters = int(sys.argv[3]) + 1
             passwrd_hashed = sys.argv[4].lower()
             hash_type = sys.argv[5]
-            if sys.argv[6] == "--characters":
-                characters = [char for char in sys.argv[7]]
-            else:
-                characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
+            try:
+                if sys.argv[6] == "--characters":
+                    characters = [char for char in sys.argv[7]]
+                else:
+                    print("invalid argument "+sys.argv[6])
+            except:characters = [char for char in string.printable.replace("\t\n\r\x0b\x0c","")]
             z = 1
     except:
         print("  Usage: \n\t1) python3 {} --wordlist <WORDLIST_NAME> <PASSWORD_HASHED> <HASH_TYPE>\n\t2) python3 {} --bruteforce <MIN_CHARACTERS> <MAX_CHARACTERS> <PASSWORD_HASHED> <HASH_TYPE>\n\tWith the bruteforce mode, you can use the default characters or use your custom characters by adding --characters at the end of the --bruteforce argument".format(sys.argv[0], sys.argv[0]))
