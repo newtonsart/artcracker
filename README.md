@@ -1,5 +1,6 @@
 # artcracker
-Small python program that cracks passwords hashed with different algorithms
+Small python program that cracks passwords hashed with different algorithms.
+Please don't use this for illegal purposes.
 
 ## Usage:
 ### 1) Using wordlists
